@@ -78,6 +78,8 @@
   .hero {
     padding: 3.5rem 3rem 4rem;
     border-bottom: 1px solid var(--border-soft);
+    position: relative;
+    overflow: hidden;
   }
 
   .hero-inner {
@@ -86,6 +88,7 @@
     display: flex;
     align-items: center;
     gap: 1.75rem;
+    position: relative;
   }
 
   .headshot-wrap {
@@ -178,6 +181,18 @@
   }
 
   .about-text a:hover { border-bottom-color: var(--accent); }
+
+  /* HERO NETWORK GRAPHIC */
+  #hero-network {
+    width: 340px;
+    height: 260px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 1000px) {
+    #hero-network { display: none; }
+  }
 
   /* SECTION SHARED */
   .section-inner {
@@ -377,6 +392,7 @@
         <a href="#contact" class="btn-secondary">Get in touch</a>
       </div>
     </div>
+    <div id="hero-network" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -417,10 +433,10 @@
     <h2 class="contact-heading">Contact</h2>
 
     <div class="contact-links">
-      <a href="mailto:campbell.linker@yale.edu" class="contact-link">
+      <a href="/cdn-cgi/l/email-protection#6d0e0c001d0f0801014301040306081f2d140c010843080918" class="contact-link">
         <div>
           <span class="contact-link-label">Email</span>
-          campbell.linker@yale.edu
+          <span class="__cf_email__" data-cfemail="7013111d0012151c1c5e1c191e1b15023009111c155e151405">[email&#160;protected]</span>
         </div>
         <span class="arrow">→</span>
       </a>
@@ -475,11 +491,155 @@
   <p>Updated continuously.</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const el = document.getElementById('cv-date');
   if (el) {
     el.textContent = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   }
+</script>
+
+<!--
+  Hero network graphic
+  =====================
+  Vanilla JS + inline SVG, transparent background — sits on the hero's
+  existing --bg color. Lines/nodes use --ink so they read against the
+  light hero background. Density raised to 55 nodes per your request.
+-->
+<script>
+(function () {
+  var CONFIG = {
+    density: 55,
+    accentColor: '#1E2124', // var(--ink)
+    maxEdgeDist: 78,
+    neighborsPerNode: 3,
+    seed: 1337
+  };
+  var VB_W = 400, VB_H = 320;
+
+  var container = document.getElementById('hero-network');
+  if (!container) return;
+
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 ' + VB_W + ' ' + VB_H);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.style.width = '100%';
+  svg.style.height = '100%';
+  svg.style.display = 'block';
+  svg.style.overflow = 'visible';
+  container.style.position = 'relative';
+  container.style.cursor = 'crosshair';
+  container.appendChild(svg);
+
+  var _seed = CONFIG.seed >>> 0;
+  function rand() {
+    _seed = (_seed * 1664525 + 1013904223) >>> 0;
+    return _seed / 4294967296;
+  }
+
+  var nodes = [];
+  var maxAttempts = CONFIG.density * 60;
+  var attempts = 0;
+  while (nodes.length < CONFIG.density && attempts < maxAttempts) {
+    attempts++;
+    var x = 20 + rand() * 360;
+    var y = 20 + rand() * 280;
+    var tooClose = false;
+    for (var i = 0; i < nodes.length; i++) {
+      if (Math.hypot(nodes[i].x - x, nodes[i].y - y) < 14) { tooClose = true; break; }
+    }
+    if (!tooClose) nodes.push({ x: x, y: y, baseR: 2 + rand() * 1.4 });
+  }
+
+  var edgeSet = {};
+  var edges = [];
+  nodes.forEach(function (n, i) {
+    var dists = nodes
+      .map(function (m, j) { return { j: j, d: Math.hypot(n.x - m.x, n.y - m.y) }; })
+      .filter(function (o) { return o.j !== i && o.d < CONFIG.maxEdgeDist; })
+      .sort(function (a, b) { return a.d - b.d; })
+      .slice(0, CONFIG.neighborsPerNode);
+    dists.forEach(function (o) {
+      var key = i < o.j ? i + '-' + o.j : o.j + '-' + i;
+      if (!edgeSet[key]) {
+        edgeSet[key] = true;
+        edges.push({ x1: n.x, y1: n.y, x2: nodes[o.j].x, y2: nodes[o.j].y });
+      }
+    });
+  });
+  edges.forEach(function (e, i) { e.pulse = i % 6 === 0; });
+
+  var lineEls = edges.map(function (e) {
+    var line = document.createElementNS(svgNS, 'line');
+    line.setAttribute('x1', e.x1.toFixed(1));
+    line.setAttribute('y1', e.y1.toFixed(1));
+    line.setAttribute('x2', e.x2.toFixed(1));
+    line.setAttribute('y2', e.y2.toFixed(1));
+    line.setAttribute('stroke', CONFIG.accentColor);
+    line.style.transition = 'opacity .35s ease, stroke-width .35s ease';
+    if (e.pulse) {
+      line.style.strokeDasharray = '4 7';
+      line.style.animation = 'heroNetDash ' + (3 + (edges.indexOf(e) % 5) * 0.4).toFixed(1) + 's linear infinite';
+    }
+    svg.appendChild(line);
+    return { el: line, data: e };
+  });
+
+  var nodeEls = nodes.map(function (n) {
+    var circle = document.createElementNS(svgNS, 'circle');
+    circle.setAttribute('cx', n.x.toFixed(1));
+    circle.setAttribute('cy', n.y.toFixed(1));
+    circle.setAttribute('r', n.baseR.toFixed(2));
+    circle.setAttribute('fill', CONFIG.accentColor);
+    circle.style.transition = 'opacity .35s ease';
+    svg.appendChild(circle);
+    return { el: circle, data: n };
+  });
+
+  var styleTag = document.createElement('style');
+  styleTag.textContent = '@keyframes heroNetDash { to { stroke-dashoffset: -24; } }';
+  document.head.appendChild(styleTag);
+
+  var mx = VB_W / 2, my = VB_H / 2, hovering = false;
+
+  function render() {
+    nodeEls.forEach(function (item) {
+      var n = item.data;
+      var dist = Math.hypot(n.x - mx, n.y - my);
+      var prox = Math.max(0, 1 - dist / 95);
+      var baseOp = hovering ? 0.32 : 0.14;
+      var op = Math.min(1, baseOp + prox * 0.85);
+      var r = n.baseR + prox * 2.2;
+      item.el.style.opacity = op.toFixed(2);
+      item.el.setAttribute('r', r.toFixed(2));
+    });
+    lineEls.forEach(function (item) {
+      var e = item.data;
+      var d1 = Math.hypot(e.x1 - mx, e.y1 - my);
+      var d2 = Math.hypot(e.x2 - mx, e.y2 - my);
+      var prox = Math.max(0, 1 - Math.min(d1, d2) / 95);
+      var baseOp = hovering ? 0.22 : 0.08;
+      var op = Math.min(0.85, baseOp + prox * 0.7);
+      var width = 0.6 + prox * 1;
+      item.el.style.opacity = op.toFixed(2);
+      item.el.style.strokeWidth = width.toFixed(2);
+    });
+  }
+
+  container.addEventListener('mousemove', function (e) {
+    var rect = container.getBoundingClientRect();
+    mx = ((e.clientX - rect.left) / rect.width) * VB_W;
+    my = ((e.clientY - rect.top) / rect.height) * VB_H;
+    hovering = true;
+    render();
+  });
+  container.addEventListener('mouseleave', function () {
+    hovering = false;
+    render();
+  });
+
+  render();
+})();
 </script>
 
 </body>
