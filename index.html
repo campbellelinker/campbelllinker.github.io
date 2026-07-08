@@ -498,20 +498,14 @@
   }
 </script>
 
-<!--
-  Hero network graphic
-  =====================
-  Vanilla JS + inline SVG, transparent background — sits on the hero's
-  existing --bg color. Lines/nodes use --ink so they read against the
-  light hero background. Density raised to 55 nodes per your request.
--->
+
 <script>
 (function () {
   var CONFIG = {
-    density: 55,
+    density: 95,
     accentColor: '#1E2124', // var(--ink)
-    maxEdgeDist: 78,
-    neighborsPerNode: 3,
+    maxEdgeDist: 90,
+    neighborsPerNode: 4,
     seed: 1337
   };
   var VB_W = 400, VB_H = 320;
