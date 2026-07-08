@@ -76,7 +76,7 @@
 
   /* HERO */
   .hero {
-    padding: 3.5rem 3rem 4rem;
+    padding: 1.5rem 3rem 0;
     border-bottom: 1px solid var(--border-soft);
     position: relative;
     overflow: hidden;
@@ -98,6 +98,7 @@
     border: 2px solid var(--accent-soft);
     overflow: hidden;
     background: var(--bg2);
+    position: relative;
     flex-shrink: 0;
   }
 
@@ -127,6 +128,7 @@
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--ink);
+    position: relative;
     margin-bottom: 0.6rem;
   }
 
@@ -184,8 +186,10 @@
 
 
   #hero-network {
+    position: absolute; 
     width: 440px;
     height: 380px;
+    z-index: 0;
     margin-left: auto;
     flex-shrink: 0;
   }
