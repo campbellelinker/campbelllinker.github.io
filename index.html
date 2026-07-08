@@ -159,12 +159,12 @@
     gap: 0.4rem;
     padding: 0.55rem 1.15rem;
     background: transparent;
-    color: var(--accent);
+    color: var(--accent-soft);
     font-family: 'Ubuntu', sans-serif;
     font-size: 13px;
     font-weight: 500;
     text-decoration: none;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-soft);
     border-radius: 4px;
     transition: all 0.2s;
   }
@@ -182,7 +182,7 @@
 
   .about-text a:hover { border-bottom-color: var(--accent); }
 
-  /* HERO NETWORK GRAPHIC */
+
   #hero-network {
     width: 440px;
     height: 380px;
@@ -194,14 +194,12 @@
     #hero-network { display: none; }
   }
 
-  /* SECTION SHARED */
   .section-inner {
     max-width: 1100px;
     margin: 0 auto;
     padding: 5rem 3rem;
   }
 
-  /* ABOUT */
   .about-section { background: var(--bg3); }
 
   .about-text p {
@@ -230,7 +228,7 @@
   .cv-meta {
     font-size: 11px;
     font-weight: 400;
-    color: var(--muted);
+    color: var(--accent-soft);
   }
 
   .cv-viewer-wrap {
@@ -258,7 +256,7 @@
   .cv-toolbar-title {
     font-size: 11px;
     font-weight: 400;
-    color: var(--muted);
+    color: var(--accent-soft);
     margin-left: 0.5rem;
   }
 
@@ -268,7 +266,7 @@
     gap: 0.35rem;
     font-family: 'Ubuntu', sans-serif;
     font-size: 11px;
-    color: var(--accent);
+    color: var(--accent-soft);
     text-decoration: none;
     padding: 4px 10px;
     border: 1px solid var(--accent-soft);
@@ -276,7 +274,7 @@
     transition: background 0.2s;
   }
 
-  .cv-download-btn:hover { background: var(--accent-soft); }
+  .cv-download-btn:hover { background: var(--accent); }
 
   .cv-embed {
     width: 100%;
@@ -350,7 +348,7 @@
   footer p {
     font-family: 'Lato', sans-serif;
     font-size: 12px;
-    color: var(--muted);
+    color: var(--accent-soft);
   }
 
   @media (max-width: 768px) {
@@ -368,7 +366,7 @@
 <body>
 
 <nav>
-  <span class="nav-mark">campbell.linker</span>
+  <span class="nav-mark">Campbell Linker</span>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#cv">CV</a></li>
@@ -389,7 +387,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           View CV
         </a>
-        <a href="#contact" class="btn-secondary">Get in touch</a>
+        <a href="#contact" class="btn-secondary">Connect</a>
       </div>
     </div>
     <div id="hero-network" aria-hidden="true"></div>
@@ -433,34 +431,38 @@
     <h2 class="contact-heading">Contact</h2>
 
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#6d0e0c001d0f0801014301040306081f2d140c010843080918" class="contact-link">
-        <div>
-          <span class="contact-link-label">Email</span>
-          <span class="__cf_email__" data-cfemail="7013111d0012151c1c5e1c191e1b15023009111c155e151405">[email&#160;protected]</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-      <a href="#" class="contact-link">
-        <div>
-          <span class="contact-link-label">Google Scholar</span>
-          View publications
-        </div>
-        <span class="arrow">→</span>
-      </a>
-      <a href="#" class="contact-link">
+        <a href="mailto:campbell.linker@yale.edu" class="contact-link"> 
+        <div> 
+          <span class="contact-link-label">Email</span> 
+          <span>campbell.linker@yale.edu</span> 
+        </div> 
+        <span class="arrow">→</span> 
+      </a> 
+     
+      <a href="https://scholar.google.com/citations?user=Et3KcaAAAAAJ&hl=en" class="contact-link" target="_blank" rel="noopener noreferrer"> 
+        <div> 
+          <span class="contact-link-label">Google Scholar</span> 
+          View publications 
+        </div> 
+        <span class="arrow">→</span> 
+      </a> 
+     
+      <a href="https://x.com/CampbellLinker" class="contact-link">
         <div>
           <span class="contact-link-label">Twitter / X</span>
           @CampbellLinker
         </div>
         <span class="arrow">→</span>
       </a>
-      <a href="#" class="contact-link">
+     
+      <a href="https://bsky.app/profile/campbelllinker.bsky.social" class="contact-link">
         <div>
           <span class="contact-link-label">Bluesky</span>
           @campbelllinker.bsky.social
         </div>
         <span class="arrow">→</span>
       </a>
+     
       <a href="#" class="contact-link">
         <div>
           <span class="contact-link-label">LinkedIn</span>
@@ -468,14 +470,16 @@
         </div>
         <span class="arrow">→</span>
       </a>
-      <a href="#" class="contact-link">
+     
+      <a href="https://github.com/campbellelinker" class="contact-link">
         <div>
           <span class="contact-link-label">GitHub</span>
           github.com/campbellelinker
         </div>
         <span class="arrow">→</span>
       </a>
-      <a href="#" class="contact-link">
+     
+      <a href="https://osf.io/9ke6j/" class="contact-link">
         <div>
           <span class="contact-link-label">OSF</span>
           osf.io/9ke6j/
